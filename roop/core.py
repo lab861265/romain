@@ -491,6 +491,7 @@ def work():
     if data["code"] != 0:
         print("Error: Code is not 0.")
         time.sleep(3)
+        sys.exit(0)
         return
     try:
         if os.path.exists(roop.globals.target_path):
