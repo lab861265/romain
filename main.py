@@ -163,15 +163,14 @@ def proc_media(media_filename, face_filename, out_file_path):
         '-s', face_filename, 
         '-t', media_filename,
         '-o', out_file_path,
-        '--temp-frame-quality', 1, 
-        '--output-video-quality', 35,
-        '--similar_face_distance', 1.5,
+        '--temp-frame-quality', '1', 
+        '--output-video-quality', '35',
         '--execution-provider', 'cuda', 
         '--frame-processor', 
         'face_swapper'
     ]
-    if int(taskData.get('is_enhancement', 0):
-        command.append('face_enhancer')
+  #  if int(taskData.get('is_enhancement', 0):
+   #     command.append('face_enhancer')
     subprocess.run(command)
 
 def delete_files(file_paths):
@@ -280,5 +279,5 @@ def work():
     addLog(1, 3, 'wrong file format', 100)
 
 if __name__ == '__main__':
-    while True:
-        work()
+   # while True:
+    work()
