@@ -213,8 +213,4 @@ def run() -> None:
         if not frame_processor.pre_check():
             return
     limit_resources()
-    if roop.globals.headless:
-        start()
-    else:
-        window = ui.init(start, destroy)
-        window.mainloop()
+    start()
