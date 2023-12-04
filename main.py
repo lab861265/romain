@@ -8,7 +8,7 @@ import os
 import requests
 import time
 import hashlib
-
+import re
 
 from typing import List
 import platform
@@ -155,7 +155,7 @@ def mp42gif(input_mp4_filename, output_gif_filename):
     ]
     subprocess.run(ffmpeg_command)
 
-def proc_media(media_filename, face_filename, out_file_path):
+def proc_media(media_filename, face_filename, out_file_path, is_enhancement):
     print(media_filename, face_filename, out_file_path)
     command = [
         'python',
@@ -169,9 +169,35 @@ def proc_media(media_filename, face_filename, out_file_path):
         '--frame-processor', 'face_enhancer',
         'face_swapper'
     ]
-  #  if int(taskData.get('is_enhancement', 0):
-   #     command.append('face_enhancer')
+    if is_enhancement:
+        command.append('face_enhancer')
+        
     subprocess.run(command)
+        process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True  # 用于以文本模式获取输出
+    )
+
+    while True:
+        output_line = process.stdout.readline()
+        if not output_line and process.poll() is not None:
+            break
+
+        # 在这里解析输出并提取进度信息
+        progress_match = re.search(r'Processing:\s+(\d+)%', output_line)
+        if progress_match:
+            progress_percentage = int(progress_match.group(1))
+            print(f'Progress: {progress_percentage}%')
+
+        # 如果你还想要其他输出，可以在这里处理
+
+        time.sleep(1)
+
+    process.stdout.close()
+    process.wait()
+
 
 def delete_files(file_paths):
     for file_path in file_paths:
