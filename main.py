@@ -288,7 +288,7 @@ def work():
     if media_filename.lower().endswith(('.jpg')):
         out_file_path = 'media_out.jpg'
         real_out_file_path = 'media_out.jpg'
-        #proc_image(media_filename, face_filename, out_file_path)
+        proc_media(media_filename, face_filename, out_file_path, 1)
 
         if not os.path.exists(out_file_path):
             print(f"找不到文件 {out_file_path}")
