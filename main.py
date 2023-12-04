@@ -164,7 +164,8 @@ def proc_media(media_filename, face_filename, out_file_path):
         '-t', media_filename,
         '-o', out_file_path,
         '--temp-frame-quality', 1, 
-        '--output-video-quality', 1,
+        '--output-video-quality', 35,
+        '--similar_face_distance', 1.5,
         '--execution-provider', 'cuda', 
         '--frame-processor', 
         'face_swapper'
