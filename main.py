@@ -169,8 +169,8 @@ def proc_media(media_filename, face_filename, out_file_path, is_enhancement):
         '--frame-processor','face_swapper', 'face_enhancer'
   
     ]
-    if is_enhancement:
-        command.append('face_enhancer')
+   # if is_enhancement:
+    #    command.append('face_enhancer')
         
     subprocess.run(command)
     return
