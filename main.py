@@ -166,7 +166,7 @@ def proc_media(media_filename, face_filename, out_file_path):
         '--temp-frame-quality', '1', 
         '--output-video-quality', '35',
         '--execution-provider', 'cuda', 
-        '--frame-processor', 
+        '--frame-processor', 'face_enhancer',
         'face_swapper'
     ]
   #  if int(taskData.get('is_enhancement', 0):
