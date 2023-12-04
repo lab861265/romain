@@ -246,11 +246,13 @@ def work():
     download_file(face_file_url, face_filename)
 
     extName = os.path.splitext(media_file_url)[1].lower()
+
+    is_enhancement = int(taskData.get('is_enhancement', 0)
         
     if media_filename.lower().endswith(('.mp4', '.m4v', '.mkv', '.avi', '.mov', '.webm', '.mpeg', '.mpg', '.wmv', '.flv', '.asf', '.3gp', '.3g2', '.ogg', '.vob', '.rmvb', '.ts', '.m2ts', '.divx', '.xvid', '.h264', '.avc', '.hevc', '.vp9', '.avchd')):
         
         out_file_path = 'media_out.mp4'
-        proc_media(media_filename, face_filename, out_file_path)
+        proc_media(media_filename, face_filename, out_file_path, is_enhancement)
         thumb_file_path = 'thumb_media.jpg'
         generate_video_thumbnail(out_file_path, thumb_file_path)
         if not os.path.exists(out_file_path):
@@ -269,7 +271,7 @@ def work():
         out_file_path = 'media_out.mp4'
         print('文件后缀：', extName)
         gif2mp4('media.gif', 'media.mp4')
-        proc_media(media_filename, face_filename, out_file_path)
+        proc_media(media_filename, face_filename, out_file_path, is_enhancement)
         thumb_file_path = 'thumb_media.jpg'
         generate_video_thumbnail(out_file_path, thumb_file_path)
         mp42gif('media_out.mp4', 'media_out.gif')
