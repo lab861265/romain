@@ -166,14 +166,38 @@ def proc_media(media_filename, face_filename, out_file_path, is_enhancement):
         '--temp-frame-quality', '1', 
         '--output-video-quality', '35',
         '--execution-provider', 'cuda', 
-        '--frame-processor', 'face_enhancer',
-        'face_swapper'
+        '--frame-processor','face_swapper', 'face_enhancer'
+  
     ]
-    #if is_enhancement:
-    #    command.append('face_enhancer')
+    if is_enhancement:
+        command.append('face_enhancer')
         
     subprocess.run(command)
-    
+    return
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True  # 用于以文本模式获取输出
+    )
+
+    while True:
+        output_line = process.stdout.readline()
+        if not output_line and process.poll() is not None:
+            break
+
+        # 在这里解析输出并提取进度信息
+        progress_match = re.search(r'Processing:\s+(\d+)%', output_line)
+        if progress_match:
+            progress_percentage = int(progress_match.group(1))
+            print(f'Progress: {progress_percentage}%')
+
+        # 如果你还想要其他输出，可以在这里处理
+
+        time.sleep(1)
+
+    process.stdout.close()
+    process.wait() 
 
 
 def delete_files(file_paths):
@@ -224,7 +248,7 @@ def work():
 
     extName = os.path.splitext(media_file_url)[1].lower()
 
-    is_enhancement = int(taskData.get('is_enhancement', 0)
+    is_enhancement = int(taskData.get('is_enhancement', 0))
         
     if media_filename.lower().endswith(('.mp4', '.m4v', '.mkv', '.avi', '.mov', '.webm', '.mpeg', '.mpg', '.wmv', '.flv', '.asf', '.3gp', '.3g2', '.ogg', '.vob', '.rmvb', '.ts', '.m2ts', '.divx', '.xvid', '.h264', '.avc', '.hevc', '.vp9', '.avchd')):
         
