@@ -166,11 +166,11 @@ def proc_media(media_filename, face_filename, out_file_path, is_enhancement):
         '--temp-frame-quality', '1', 
         '--output-video-quality', '35',
         '--execution-provider', 'cuda', 
-        '--frame-processor','face_swapper', 'face_enhancer'
+        '--frame-processor','face_swapper'
   
     ]
-   # if is_enhancement:
-    #    command.append('face_enhancer')
+    if is_enhancement:
+        command.append('face_enhancer')
         
     subprocess.run(command)
     return
