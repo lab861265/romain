@@ -272,7 +272,7 @@ def work():
         out_file_path = 'media_out.mp4'
         print('文件后缀：', extName)
         gif2mp4('media.gif', 'media.mp4')
-        proc_media(media_filename, face_filename, out_file_path, is_enhancement)
+        proc_media('media.mp4', face_filename, out_file_path, is_enhancement)
         thumb_file_path = 'thumb_media.jpg'
         generate_video_thumbnail(out_file_path, thumb_file_path)
         mp42gif('media_out.mp4', 'media_out.gif')
