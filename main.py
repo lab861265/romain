@@ -266,7 +266,7 @@ def work():
         upload_image_res = upload_image('https://fakeface.io/upload.php?m=thumb', thumb_file_path)
         print('Upload result:', upload_video_res, upload_image_res)
         now = datetime.now()
-        api_res = callApi("wokerAddMedia", {'user_id':data['data']['user_id'], 'media_id':data['data']['finish_media_id'], 'file_url':upload_video_res['link'], 'thumb_url':upload_image_res['thumb'], 'file_hash':now.strftime("%Y-%m-%d %H:%M:%S") + upload_video_res['size']})
+        api_res = callApi("wokerAddMedia", {'user_id':data['data']['user_id'], 'media_id':data['data']['finish_media_id'], 'file_url':upload_video_res['link'], 'thumb_url':upload_image_res['thumb'], 'file_hash':now.strftime("%Y-%m-%d %H:%M:%S")})
         print('Api result:', api_res)
         addLog(1, 3, 'finish', 100)
         return
@@ -288,7 +288,7 @@ def work():
         upload_image_res = upload_image('https://fakeface.io/upload.php?m=thumb', thumb_file_path)
         print('Upload result:', upload_video_res, upload_image_res)
         now = datetime.now()
-        api_res = callApi("wokerAddMedia", {'user_id':data['data']['user_id'], 'media_id':data['data']['finish_media_id'], 'file_url':upload_video_res['link'], 'thumb_url':upload_image_res['thumb'], 'file_hash':now.strftime("%Y-%m-%d %H:%M:%S") + upload_video_res['size']})
+        api_res = callApi("wokerAddMedia", {'user_id':data['data']['user_id'], 'media_id':data['data']['finish_media_id'], 'file_url':upload_video_res['link'], 'thumb_url':upload_image_res['thumb'], 'file_hash':now.strftime("%Y-%m-%d %H:%M:%S")})
         print('Api result:', api_res)
         addLog(1, 3, 'finish', 100)
         return
