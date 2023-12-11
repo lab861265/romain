@@ -9,6 +9,7 @@ import requests
 import time
 import hashlib
 import re
+from datetime import datetime
 
 from typing import List
 import platform
@@ -48,9 +49,10 @@ def upload_file(url, file_path):
             
             current_chunk += 1
             data = res_json
-        
+
+        now = datetime.now()
         data['name'] = os.path.basename(file_path)
-        data['hash'] = 'hash_placeholder'  # 請替換為計算哈希值的方法
+        data['hash'] =  now.strftime("%Y-%m-%d %H:%M:%S")  # 請替換為計算哈希值的方法
         print(f'文件大小：{os.path.getsize(file_path)}  {data["size"]}')
         # 調用捕獲視頻畫面並上傳縮略圖的函數，並將返回的數據更新到 data 對象中
         # tres = capture_video_frame_and_upload(file_path)
@@ -299,9 +301,10 @@ def work():
             return
      #   addLog(0, 2, 'finish quickly', 99)
         upload_res = upload_image('https://fakeface.io/upload.php?m=png', out_file_path)
-        
+        now = datetime.now()
+
         print('Upload result:', upload_res)
-        api_res = callApi("wokerAddMedia", {'user_id':data['data']['user_id'], 'media_id':data['data']['finish_media_id'], 'file_url':upload_res['link'], 'thumb_url':upload_res['thumb'], 'file_hash':'121212'})
+        api_res = callApi("wokerAddMedia", {'user_id':data['data']['user_id'], 'media_id':data['data']['finish_media_id'], 'file_url':upload_res['link'], 'thumb_url':upload_res['thumb'], 'file_hash':now.strftime("%Y-%m-%d %H:%M:%S") })
         print('Api result:', api_res)
         addLog(1, 3, 'finish', 100)
         return
