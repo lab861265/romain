@@ -11,10 +11,45 @@ import hashlib
 import re
 from datetime import datetime
 
+from moviepy.editor import VideoFileClip
+
 from typing import List
 import platform
 import signal
 import shutil
+
+
+def is_video_720p(file_path):
+    clip = VideoFileClip(file_path)
+    resolution = clip.size
+    print(f"Video resolution: {resolution[0]}x{resolution[1]}")
+    return resolution[0] <= 1280 and resolution[1] <= 720
+
+def convert_to_720p(input_path):
+    if is_video_720p(input_path):
+        print("Video resolution is 720p or lower. No conversion needed.")
+        return
+
+    # 生成重命名后的文件名
+    file_name, file_extension = os.path.splitext(os.path.basename(input_path))
+    renamed_path = os.path.join(os.path.dirname(input_path), f"src_{file_name}{file_extension}")
+
+    # 重命名原始文件
+    os.rename(input_path, renamed_path)
+
+    # 转换并保存为新文件（使用重新编码而非快速拷贝）
+    output_path = os.path.join(os.path.dirname(renamed_path), f"{file_name}.mp4")
+    ffmpeg_command = [
+        'ffmpeg',
+        '-y', 
+        '-i', renamed_path,
+        '-vf', 'scale=-1:720',
+        output_path
+    ]
+    subprocess.run(ffmpeg_command)
+
+    print(f"Video successfully converted to 720p. Saved at {output_path}")
+
 
 def calculate_md5(input_string):
     md5_hash = hashlib.md5(input_string.encode()).hexdigest()
@@ -253,6 +288,10 @@ def work():
     is_enhancement = int(taskData.get('is_enhancement', 0))
         
     if media_filename.lower().endswith(('.mp4', '.m4v', '.mkv', '.avi', '.mov', '.webm', '.mpeg', '.mpg', '.wmv', '.flv', '.asf', '.3gp', '.3g2', '.ogg', '.vob', '.rmvb', '.ts', '.m2ts', '.divx', '.xvid', '.h264', '.avc', '.hevc', '.vp9', '.avchd')):
+        
+        convert_to_720p(media_filename)
+
+        media_filename = 'media.mp4'
         
         out_file_path = 'media_out.mp4'
         proc_media(media_filename, face_filename, out_file_path, is_enhancement)
