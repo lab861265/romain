@@ -202,7 +202,7 @@ def proc_media(media_filename, face_filename, out_file_path, is_enhancement):
         '-o', out_file_path,
         '--temp-frame-quality', '1', 
         '--output-video-quality', '35',
-        '--execution-provider', 'cuda', 
+        '--execution-provider', 'cpu', 
         '--frame-processor','face_swapper'
   
     ]
